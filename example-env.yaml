@@ -1,0 +1,26 @@
+app:
+  version:
+    tag: v
+    value: 1
+  lang: id
+  signature: 5i6naTurE
+
+server:
+  address: :5000
+
+mysql:
+  address: 127.0.0.1
+  user: homestead
+  pass: homestead
+  port: 3306
+  database: homestead
+
+cors:
+  allowed_headers: Content-Type,X-Auth-Token,Origin,Authorization,Access-Control-Allow-Headers,Cache-Control,X-Requested-With
+  allowed_methods: GET,DELETE,PUT,OPTIONS,POST,PATCH
+  allowed_origins: '*'
+
+permission:
+  admin: administrator,marketing,cx,product,logistic
+  merchant: administrator,merchant
+  customer: administrator,customer,merchant,marketing,cx,product,logistic

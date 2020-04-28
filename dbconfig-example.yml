@@ -1,0 +1,5 @@
+local:
+  dialect: mysql
+  datasource: root:root@tcp(127.0.0.1:3306)/yourdatabasename?parseTime=true
+  dir: domain/core/migrations/mysql
+  table: migrations
