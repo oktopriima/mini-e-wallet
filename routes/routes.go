@@ -11,6 +11,7 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 
+	"github.com/oktopriima/mini-e-wallet/application/httphandler/authentication"
 	"github.com/oktopriima/mini-e-wallet/application/httphandler/users"
 	"github.com/oktopriima/mini-e-wallet/domain/config"
 	"github.com/oktopriima/mini-e-wallet/domain/middleware"
@@ -19,6 +20,7 @@ import (
 func InvokeRoute(
 	engine *gin.Engine,
 	user users.UserHandler,
+	auth authentication.AuthHandler,
 ) {
 	conf := config.NewConfig()
 	route := engine.Group("api/" + conf.GetString("app.version.tag") + conf.GetString("app.version.value"))
@@ -29,10 +31,15 @@ func InvokeRoute(
 
 	route.OPTIONS("/*path", middleware.CORSMiddleware())
 
+	// auth route
+	{
+		authRoute := route.Group("auth")
+		authRoute.POST("", auth.LoginHandler)
+	}
+
 	// user route
 	{
 		userRoute := route.Group("users")
-		userRoute.Use(middleware.MyAuth())
 		userRoute.POST("", user.CreateHandler)
 		userRoute.GET("", user.FindPagedHandler)
 		userRoute.GET(":id", user.FindHandler)
