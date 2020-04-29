@@ -7,3 +7,33 @@
 **/
 
 package transactions
+
+import (
+	"github.com/jinzhu/gorm"
+
+	"github.com/oktopriima/mini-e-wallet/application/request"
+	"github.com/oktopriima/mini-e-wallet/domain/core/repo"
+)
+
+type TransactionController interface {
+	TopUpController(request request.TopUpRequest) (interface{}, error)
+}
+
+type transactionController struct {
+	db                     *gorm.DB
+	userBalanceRepo        repo.UserBalanceRepository
+	userBalanceHistoryRepo repo.UserBalanceHistoryRepository
+	userRepo               repo.UserRepository
+}
+
+func NewTransactionController(db *gorm.DB,
+	userBalanceRepo repo.UserBalanceRepository,
+	userBalanceHistoryRepo repo.UserBalanceHistoryRepository,
+	userRepo repo.UserRepository) TransactionController {
+	return &transactionController{
+		db:                     db,
+		userBalanceRepo:        userBalanceRepo,
+		userBalanceHistoryRepo: userBalanceHistoryRepo,
+		userRepo:               userRepo,
+	}
+}

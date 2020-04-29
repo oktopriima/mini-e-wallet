@@ -21,5 +21,13 @@ func BuildServiceContainer(container *dig.Container) *dig.Container {
 		panic(err)
 	}
 
+	if err = container.Provide(services.NewUserBalanceServices); err != nil {
+		panic(err)
+	}
+
+	if err = container.Provide(services.NewUserBalanceHistoryServices); err != nil {
+		panic(err)
+	}
+
 	return container
 }

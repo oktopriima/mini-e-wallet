@@ -50,7 +50,9 @@ func (srv *userServices) FindPaged(criteria map[string]interface{}, page, size i
 	var users []*model.User
 
 	limit, offset := helper.GetLimitOffset(page, size)
-	if err := srv.db.Where(criteria).Limit(limit).Offset(offset).Find(&users).Error; err != nil {
+	if err := srv.db.Where(criteria).Preload("UserBalances", func(db *gorm.DB) *gorm.DB {
+		return db.Order("id DESC").Limit(1).Preload("UserBalanceHistories")
+	}).Limit(limit).Offset(offset).Find(&users).Error; err != nil {
 		return nil, err
 	}
 
@@ -65,7 +67,9 @@ func (srv *userServices) Count(criteria map[string]interface{}) int {
 
 func (srv *userServices) FindOne(criteria map[string]interface{}) (*model.User, error) {
 	user := new(model.User)
-	if err := srv.db.Where(criteria).Find(&user).Error; err != nil {
+	if err := srv.db.Where(criteria).Preload("UserBalances", func(db *gorm.DB) *gorm.DB {
+		return db.Order("id DESC").Limit(1).Preload("UserBalanceHistories")
+	}).Find(&user).Error; err != nil {
 		return nil, err
 	}
 	return user, nil

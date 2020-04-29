@@ -12,6 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/oktopriima/mini-e-wallet/application/httphandler/authentication"
+	"github.com/oktopriima/mini-e-wallet/application/httphandler/transactions"
 	"github.com/oktopriima/mini-e-wallet/application/httphandler/users"
 	"github.com/oktopriima/mini-e-wallet/domain/config"
 	"github.com/oktopriima/mini-e-wallet/domain/middleware"
@@ -21,6 +22,7 @@ func InvokeRoute(
 	engine *gin.Engine,
 	user users.UserHandler,
 	auth authentication.AuthHandler,
+	transaction transactions.TransactionHandler,
 ) {
 	conf := config.NewConfig()
 	route := engine.Group("api/" + conf.GetString("app.version.tag") + conf.GetString("app.version.value"))
@@ -44,6 +46,13 @@ func InvokeRoute(
 		userRoute.GET("", user.FindPagedHandler)
 		userRoute.GET(":id", user.FindHandler)
 		userRoute.PUT(":id", user.UpdateHandler)
+	}
+
+	{
+		transRoute := route.Group("transaction")
+		transRoute.Use(middleware.MyAuth())
+		transRoute.POST("top-up", transaction.TopupHandler)
+
 	}
 
 }

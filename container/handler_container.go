@@ -12,6 +12,7 @@ import (
 	"go.uber.org/dig"
 
 	"github.com/oktopriima/mini-e-wallet/application/httphandler/authentication"
+	"github.com/oktopriima/mini-e-wallet/application/httphandler/transactions"
 	"github.com/oktopriima/mini-e-wallet/application/httphandler/users"
 )
 
@@ -23,6 +24,10 @@ func BuildHandlerContainer(container *dig.Container) *dig.Container {
 	}
 
 	if err = container.Provide(authentication.NewAuthHandler); err != nil {
+		panic(err)
+	}
+
+	if err = container.Provide(transactions.NewTransactionHandler); err != nil {
 		panic(err)
 	}
 

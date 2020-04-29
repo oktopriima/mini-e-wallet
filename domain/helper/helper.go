@@ -11,6 +11,7 @@ package helper
 import (
 	"io/ioutil"
 	"math/rand"
+	"net"
 	"net/http"
 
 	"github.com/oktopriima/mini-e-wallet/domain/middleware"
@@ -51,6 +52,33 @@ func GetLimitOffset(page, size int) (limit int, offset int) {
 	return size, offset
 }
 
-type UnitTime struct {
-	Value string `json:"value"`
+func GetIP(r *http.Request) string {
+	var ip net.IP
+
+	nets, err := net.Interfaces()
+	if err != nil {
+		return ""
+	}
+	// handle err
+	for _, i := range nets {
+		addr, err := i.Addrs()
+		if err != nil {
+			return ""
+		}
+		// handle err
+		for _, addr := range addr {
+			switch v := addr.(type) {
+			case *net.IPNet:
+				ip = v.IP
+			case *net.IPAddr:
+				ip = v.IP
+			}
+		}
+	}
+
+	if ip == nil {
+		return ""
+	}
+
+	return ip.String()
 }

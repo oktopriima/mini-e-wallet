@@ -14,15 +14,16 @@ var (
 )
 
 type User struct {
-	ID         int       `json:"id"`
-	Username   string    `json:"username"`
-	Email      string    `json:"email"`
-	Password   string    `json:"-"`
-	LastLogin  time.Time `json:"last_login"`
-	IsVerified bool      `json:"is_verified"`
-	IsActive   bool      `json:"is_active"`
-	CreatedAt  time.Time `json:"created_at"`
-	UpdatedAt  time.Time `json:"updated_at"`
+	ID           int            `json:"id"`
+	Username     string         `json:"username"`
+	Email        string         `json:"email"`
+	Password     string         `json:"-"`
+	LastLogin    time.Time      `json:"last_login"`
+	IsVerified   bool           `json:"is_verified"`
+	IsActive     bool           `json:"is_active"`
+	CreatedAt    time.Time      `json:"-"`
+	UpdatedAt    time.Time      `json:"-"`
+	UserBalances []*UserBalance `json:"user_balances" gorm:"ForeignKey:UserID"`
 }
 
 // TableName sets the insert table name for this struct type
