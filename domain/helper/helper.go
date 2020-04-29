@@ -9,19 +9,12 @@
 package helper
 
 import (
-	"io/ioutil"
 	"math/rand"
 	"net"
 	"net/http"
 
 	"github.com/oktopriima/mini-e-wallet/domain/middleware"
 )
-
-func ResponseToByte(response *http.Response) ([]byte, error) {
-	var bodyBytes []byte
-	bodyBytes, err := ioutil.ReadAll(response.Body)
-	return bodyBytes, err
-}
 
 func RandString(n int) string {
 	const letterBytes = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
