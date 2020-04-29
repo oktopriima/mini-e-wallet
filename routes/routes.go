@@ -52,6 +52,7 @@ func InvokeRoute(
 		transRoute := route.Group("transaction")
 		transRoute.Use(middleware.MyAuth())
 		transRoute.POST("top-up", transaction.TopupHandler)
+		transRoute.POST("transfer", transaction.TransferHandler)
 
 	}
 

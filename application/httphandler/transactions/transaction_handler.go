@@ -16,6 +16,7 @@ import (
 
 type TransactionHandler interface {
 	TopupHandler(ctx *gin.Context)
+	TransferHandler(ctx *gin.Context)
 }
 
 type transactionHandler struct {

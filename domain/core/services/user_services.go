@@ -51,7 +51,7 @@ func (srv *userServices) FindPaged(criteria map[string]interface{}, page, size i
 
 	limit, offset := helper.GetLimitOffset(page, size)
 	if err := srv.db.Where(criteria).Preload("UserBalances", func(db *gorm.DB) *gorm.DB {
-		return db.Order("id DESC").Limit(1).Preload("UserBalanceHistories")
+		return db.Order("id DESC").Preload("UserBalanceHistories")
 	}).Limit(limit).Offset(offset).Find(&users).Error; err != nil {
 		return nil, err
 	}

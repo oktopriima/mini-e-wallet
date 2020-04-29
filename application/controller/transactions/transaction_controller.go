@@ -17,6 +17,7 @@ import (
 
 type TransactionController interface {
 	TopUpController(request request.TopUpRequest) (interface{}, error)
+	TransferController(request request.TransferRequest) (interface{}, error)
 }
 
 type transactionController struct {
